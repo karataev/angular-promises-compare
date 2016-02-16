@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.min.css">
+
+  <style>
+    .holder {
+      display: flex;
+    }
+
+    .column {
+      width: 50%;
+    }
+  </style>
+
+</head>
+<body ng-app="app" ng-controller="AppCtrl as ctrl">
+
+<h1>Промисы один за другим и пучком</h1>
+
+<label>
+  Сколько шуток получить?
+  <input type="number" ng-model="ctrl.jokesToFetch" ng-change="ctrl.changeAmount()">
+</label>
+
+<div class="holder">
+  <div ng-controller="QueueCtrl as qCtrl" class="column">
+    <button ng-click="qCtrl.startFetchProcess()">Одну за другой</button>
+
+    <p ng-repeat="joke in qCtrl.jokes">
+      {{joke.id}}. {{joke.joke}}
+    </p>
+    <h4 ng-if="qCtrl.delta">Затрачено времени: {{qCtrl.delta}} мс</h4>
+  </div>
+
+  <div ng-controller="BundleCtrl as bCtrl" class="column">
+    <button ng-click="bCtrl.startFetchProcess()">Все сразу</button>
+    <p ng-repeat="joke in bCtrl.jokes">
+      {{joke.id}}. {{joke.joke}}
+    </p>
+    <h4 ng-if="bCtrl.delta">Затрачено времени: {{bCtrl.delta}} мс</h4>
+  </div>
+</div>
+
+
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
